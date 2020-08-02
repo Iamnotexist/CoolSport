@@ -187,6 +187,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 					Edit_GetText(hColvo, buf, 40);
 					colvo_str = buf;
 
+
+					//проверяю, если ли данный для записи
 					if (upr_str.size() == 0 || colvo_str.size() == 0) {
 						MessageBox(hWnd, "Incorrect Input", NULL, MB_OK);
 						break;
@@ -235,10 +237,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
 					provod2 prov("data/Sport.info");
 
+					while (colvo_str.size() > 1 && colvo_str[0] == '0')
+						colvo_str.erase(colvo_str.begin()); // удаляю ведущие нули если есть
+				
+
 
 					if (prov[n_date][upr_str].getVertex().size() == 0) { //если информации о таком упражнении еще нет
 						if (prov[n_date].getVertex().size() == 13) { //если упражнений уже слишком много
 							MessageBox(hWnd, "Ex. count 12 maximum", NULL, MB_OK);
+							prov[n_date].deleteVertex(upr_str); //удаляю упражнение
 							break;
 						}
 
@@ -249,6 +256,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
 						if (_minus) { //если пытаюсь записать отрицательное число
 							MessageBox(hWnd, "Incorrect Input", NULL, MB_OK);
+							prov[n_date].deleteVertex(upr_str);
 							break;
 						}
 						prov[n_date][upr_str][colvo_str];
@@ -286,7 +294,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 
 							std::string col_end = colvo_end; //перевожу в string
 							prov[n_date][upr_str][col_end]; //записываю информацию
-						}
+						} else
+							prov[n_date].deleteVertex(upr_str); //удаляю упражнение
 					}	 
 
 					prov.write(); //записываю информацию в файл
