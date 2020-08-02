@@ -5,4 +5,3 @@ g++ -o Sport.exe Sport.o lib\date.o lib\provod2.o
 del /Q lib\date.o
 del /Q lib\provod2.o
 del /Q Sport.o
-Sport.exe
