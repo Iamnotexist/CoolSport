@@ -86,6 +86,9 @@ provod2::provod2 (std::string __a) {
 			cur = cur->_par;
 			continue;
 		}
+		//учитываю пробелы
+		if (__zn.size() != 0)
+			__zn += " ";
 
 		__zn += __d; //дополняю значение информацией из буффера
 	}
